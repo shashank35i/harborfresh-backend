@@ -1,7 +1,7 @@
 # HarborFresh Backend
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_phone_backend.png" width="100%" alt="HarborFresh Backend preview" />
+  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_logo.png" width="180" alt="HarborFresh logo" />
 </div>
 
 <p align="center">
@@ -11,7 +11,7 @@
   <img src="https://img.shields.io/badge/Status-Production--ready-2F7D67?style=for-the-badge" />
 </p>
 
-<p align="center"><strong>HarborFresh</strong> — dock-to-door seafood marketplace backend for customer ordering, seller onboarding, and admin review workflows.</p>
+<p align="center"><strong>HarborFresh</strong>  dock-to-door seafood marketplace backend for customer ordering, seller onboarding, and admin review workflows.</p>
 
 Built by Shashank Preetham Pendyala
 
@@ -31,7 +31,6 @@ Success is measured by:
 
 ## Table of Contents
 
-- [Demo](#demo)
 - [Features](#features)
 - [Architecture](#architecture)
 - [Layered Architecture](#layered-architecture)
@@ -52,14 +51,6 @@ Success is measured by:
 - [Troubleshooting](#troubleshooting)
 - [Roadmap](#roadmap)
 - [License](#license)
-
----
-
-## Demo
-
-<div align="center">
-  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_phone_backend.png" width="100%" alt="HarborFresh backend mockup" />
-</div>
 
 ---
 
