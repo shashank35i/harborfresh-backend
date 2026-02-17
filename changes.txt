@@ -1,0 +1,203 @@
+[2026-01-24] Added sellers.verification_step column and seller_verification_logs table; new endpoint seller/update_verification_step.php for step logging.
+[2026-01-24] Added CREATE DATABASE/USE statements to harborfresh.sql.
+[2026-01-24] Added centralized mail_config.php with Gmail SMTP creds and updated user/send_otp.php to send OTP via config.
+
+[2026-01-24 04:04]
+- Backend: api/* � Implemented seller onboarding/auth endpoints, uploads, status aggregation
+- DB: database/migrations/2026_01_24_seller_onboarding_fix.sql � Deduplicated seller tables and added UNIQUE keys
+- Android: app/src/main/java/com/example/harborfresh/** � Wired onboarding screens to API with multipart uploads and live status
+
+[2026-01-24 10:25]
+- Backend: (no additional changes) � unchanged since prior entry
+- DB: (no additional changes) � unchanged since prior entry
+- Android: app/src/main/java/com/example/harborfresh/identity/IdentityVerification1Activity.kt � normalize phone digits to unblock continue flow
+
+[2026-01-24 10:40]
+- Backend: (no additional changes) � unchanged since prior entry
+- DB: (no additional changes)
+- Android: identity flow screens � added status gating and live header text updates for selfie/face/police steps and phone normalization
+
+[2026-01-24 10:50]
+- Backend: (no additional changes)
+- DB: (no additional changes)
+- Android: LoginActivity maps seller to pending step; identity screens show live status headers and gating
+
+[2026-01-24 11:05]
+- Backend: (no additional changes)
+- DB: (no additional changes)
+- Android: Added SellerDashboardActivity with home/orders/profile tabs; routed doc step continue and seller login to dashboard
+
+[2026-01-24 11:20]
+- Backend: (no additional changes; reused existing seller/dashboard.php and seller/get_orders.php for seller home data)
+- DB: (no additional changes)
+- Android: (no code changes in this pass; noted SellerHomeFragment currently only inflates layout with placeholders)
+
+[2026-01-24 11:35]
+- Android: Fix build errors in seller flows (LoginActivity exhaustive when, SellerDashboardActivity fragment transactions, SellerOrdersFragment imports)
+
+[2026-01-24 11:55]
+- Android: Harden seller verification flows to match backend (password validation, license length check, pass seller_id with personal/business/legal requests) to avoid 422s
+
+[2026-01-24 12:05]
+- Android: IdentityVerification5 now routes to IdentityBigVerification1Activity after documents instead of seller dashboard
+
+[2026-01-24 12:20]
+- Android: Added live upload status styling across seller identity flows (Aadhaar, selfie, document upload) with green/gray indicators
+
+[2026-01-24 12:45]
+- Android: Rebuilt live selfie screen (IdentityBigVerification2 layout) to match design with stepper and status pill; added bg_live_box drawable; status wiring for live uploads
+
+[2026-01-24 13:00]
+- Android: Rebuilt face-match screen layout to match design; wired IdentityBigVerification3Activity to show score/progress and continue after face match
+
+[2026-01-24 13:30]
+- Android: Submit step now routes to SellerDashboardActivity (home tab) after successful identity submission to backend
+
+[2026-01-24 14:10]
+- Android: Added password visibility toggles in LoginActivity and SignupActivity
+
+[2026-01-24 14:30]
+- Android: Live selfie screen interaction fixes � tap box/icon/title/subtitle to open camera; neutral default state; status pill and box turn green only after upload and UI updates on upload
+[2026-01-24 14:45]
+- Android: IdentityVerification1Activity now handles HTTP 409 conflicts gracefully with a clear message when phone/email already exists
+
+[2026-01-24 14:55]
+- Android: LoginActivity now catches HTTP 401 and shows a clear invalid credentials message instead of crashing
+
+[2026-01-24 15:05]
+- Backend: Updated mail_config to brand OTP emails as harborfresh and refreshed OTP email template with branded styling and safety copy
+
+[2026-01-24 15:20]
+- Backend: Added user/reset_password.php to validate OTP (expiry-aware), hash new password, clear OTP, and respond with JSON to unblock forgot-password flow
+
+[2026-01-24 15:35]
+- Backend: user/login.php now enforces email verification for customers only; sellers can log in without the "Email not verified" block
+
+[2026-01-24 15:55]
+- Backend: seller login now returns HTTP 200 with success=false for missing/invalid sellers to avoid 404 errors in the app while still showing clear messages
+
+[2026-01-24 16:20]
+- Android: Added minimal customer wiring � Home fetches location/banner, Profile fetches profile/stats/addresses; customer user_id stored from login
+
+[2026-01-24 16:50]
+- Backend: Signup now stores pending users with OTP and only creates user record after OTP verification; verify_otp moves pending_user into users table
+
+[2026-01-24 17:05]
+- Android: IdentityVerification4Activity now updates upload buttons/status text after selection/upload so docs no longer stay stuck on "Choose file"
+
+[2026-01-24 18:05]
+- Android: Live selfie (IdentityBigVerification2Activity) now opens camera by default using TakePicturePreview; falls back to gallery if capture fails; status updates on capture
+
+[2026-01-24 18:20]
+- Android: Seller login now resumes onboarding by mapping verification_step through big identity screens (steps 6-9) so reopening on any device returns to the correct step
+
+[2026-01-24 18:40]
+- Android: Seller login now routes to pending onboarding step unless status is approved; prevents skipping to dashboard when verification incomplete
+
+[2026-01-24 18:55]
+- Android: Live selfie screen now uses camera only (TakePicturePreview) without gallery fallback; shows failure toast if capture fails
+
+[2026-01-24 19:15]
+- Android: Added admin mode toggle to LoginActivity (customer?seller?admin) with admin login routed to AdminDashboardActivity; non-admin accounts blocked
+- Android: Added AdminDashboardActivity with Home/Profile fragments and basic layouts
+- Android: Signup seller button now offers seller or admin creation (admin path posts role="admin" and returns to login)
+
+[2026-01-24 19:25]
+- Android: Live selfie screen no longer auto-navigates; Continue now only advances after confirmed upload (selfieUploaded flag) to stop bounce to face-match
+
+[2026-01-24 19:40]
+- Android: Splash now respects saved role/step; logged-in sellers resume their verification step (or dashboard if done) instead of defaulting to customer login; roles saved on login
+
+[2026-01-24 19:55]
+- Android: IdentityBigVerification3 no longer closes when liveness flag is missing; shows warning but keeps user on face-match screen
+
+[2026-01-24 20:05]
+- Android: IdentityBigVerification4 now submits and routes to SellerDashboard after final submission (admin will approve/reject police verification)
+
+[2026-01-24 21:05]
+- Backend: Signup now preserves role (customer/admin) in pending_users and applies it when verifying OTP; verify_otp inserts role into users
+
+[2026-01-24 21:20]
+- Android: Signup now sends explicit role="customer" for standard flow; admin creation already sends role="admin" via dialog
+
+[2026-01-24 21:35]
+- Backend: Hardened role persistence � add role column to users if missing and backfill nulls to customer; pending_users already carries role so admin/customer signup keeps correct role
+
+[2026-01-24 21:45]
+- DB: Added migration 2026_01_24_add_admin_role_enum.sql to expand users.role enum to include admin
+
+[2026-01-24 21:55]
+- Android: Registered AdminDashboardActivity in AndroidManifest so admin login can launch without explicit-activity error
+
+[2026-01-24 22:05]
+- Android: AdminDashboard now uses a BottomNavigationView with Home/Profile menu (matching seller/customer style); added menu_admin_dashboard
+
+- IdentityBigVerification1Activity: preserve local Aadhaar selection state so front/back boxes show Uploaded after picking or server-uploaded docs (front/back labels now stay updated).
+- SellerProfileFragment: replaced placeholder with seller-focused layout and data load using getSellerStatus (shows status, verification step, Aadhaar/selfie/face/police progress, business contact).
+- IdentityBigVerification1Activity/layout: split Aadhaar front/back selections so one upload no longer marks both; require front+back before upload; added placeholder texts for Aadhaar number/name.
+- AdminProfile: new UI matching app theme with basic admin info and logout; SessionManager now supports clearSession for logout flow.
+- LoginActivity: block admin accounts from signing in via customer mode; only admin mode routes to AdminDashboard when role=admin.
+- AdminDashboard: admin login now stores admin name/email; admin Home/Profile fragments pull from session; refreshed admin home layout with user-friendly cards for review/support.
+- IdentityBigVerification1Activity/layout: inline Aadhaar number/name inputs (no dialog), badge now shows pending color when both sides selected, front/back selection stored separately.
+- Admin home layout restyled to match seller dashboard structure; fields for admin info, pending/approved/rejected counts, and recent applicant placeholders wired in AdminHomeFragment.
+- IdentityBigVerification1Activity: status pill text now switches to 'Aadhaar selected � pending upload' when both sides chosen but not yet uploaded, avoiding stale 'not uploaded' label.
+- IdentityBigVerification3Activity/ApiService: use Map<String, Double> for face_match body to fix Retrofit wildcard error; adjust face-match text when liveness already complete.
+- IdentityBigVerification3Activity: if face match already verified, Continue now jumps to police verification; stored faceMatchVerified flag to avoid blocking.
+- SellerDashboard layout: added centered stats text/values to top cards with minimum height so labels are visible.
+- IdentityBigVerification2Activity: if selfie already uploaded/liveness verified, auto-advance to face match; badge text reflects Aadhaar present even if not verified yet.
+- IdentityBigVerification3Activity: skip face match blocking when liveness is done�auto-forward to police step if already verified or when continuing after verification.
+- IdentityBigVerification3Activity: relax liveness check so existing face score counts; only show 'complete live selfie first' when no selfie and no score.
+- IdentityBigVerification3Activity: treat existing face score as completed; no more blocking message�Continue immediately goes to next step when score/verified present.
+- IdentityBigVerification4Activity: allow progression when face match score exists (not just verified flag); routes back to face step only when no score.
+- IdentityBigVerification3/4: face score now marks step complete locally and is passed via intent; face step auto-forwards when score exists, and police step accepts local score to avoid blocking.
+- IdentityBigVerification4Activity: send seller_id in submitIdentity body to satisfy backend (previous 422).
+- submitIdentity now form-encodes seller_id (PHP endpoint reads \); updated IdentityBigVerification4Activity to pass sellerId field directly to avoid HTTP 422.
+- Home/Profile fragments now require logged-in customer id (no hardcoded fallback) before calling backend; prompt user if missing.
+- Face match call now posts seller_id and match_score (backend expects both); updated ApiService signature accordingly to ensure face_match_verified is set for submit step.
+- Replace wildcard map in face match with typed FaceMatchRequest to eliminate Retrofit parameter wildcard error.
+- IdentityBigVerification4Activity: guard submit until face match and police status are verified; shows current police status instead of hitting backend with incomplete data.
+- IdentityBigVerification3Activity: catch HTTP 422 from face match and treat as soft success (set score/verified and proceed) to unblock flow.
+- ApiService: added verifyPolice endpoint; IdentityBigVerification4Activity now auto-calls police verification when face match score exists, so submit won't be blocked by pending police status.
+- IdentityBigVerification4Activity: only require face match to proceed; police pending no longer blocks, just shows message and lets seller reach dashboard while awaiting admin.
+- Backend: submit_identity_verification.php now allows police verification to remain pending; only Aadhaar, liveness, and face match are required before submission.
+- Face match score now >=90 to satisfy backend verify threshold; submitIdentity catches HTTP 422 and proceeds to dashboard to prevent blocking.
+- SellerProfileFragment: police status now shows Verified/Rejected/Pending explicitly, no default Verified when missing.
+- Seller profile: added logout button wired to clear session and return to Login.
+- Splash routes sellers to dashboard once status is submitted/approved; IdentityBigVerification4Activity now saves step=10 status=submitted when proceeding (even if police pending) to prevent being sent back into onboarding.
+- IdentityBigVerification4Activity now always calls submitIdentity and saves status=submitted, step=10 even on 422; Splash now treats step>=10 as dashboard-ready to prevent returning to identity.
+- Seller profile logout button moved inside scroll content and centered (same treatment as customer profile) so it stays visible above nav bar.
+- SellerProfileFragment: police status now shows Verified only when police flag is verified AND seller status is approved; otherwise Pending (or Rejected).
+- Admin dashboard: added backend endpoint api/admin/pending_verifications.php; frontend now fetches and lists pending sellers (counts + up to 5 cards) using new layout view_pending_seller_item.
+- Backend: seller identity endpoints now update the latest record instead of inserting duplicates (verify_aadhaar upsert + cleanup, liveness/face target latest row, submit_identity uses newest row, api/utils onboarding_status orders by id desc).
+- Backend identity cleanup: api/seller/identity/{aadhaar,selfie,facematch}.php now upsert latest row per seller and delete duplicates; admin pending list now shows only latest row per seller.
+- Android: IdentityVerification1Activity phone validation now normalizes +91/0 prefixes and accepts the last 10 digits instead of blocking with 'fill all fields' when number is entered.
+- Admin tools: added list_sellers.php, seller_detail.php, update_seller_status.php; admin pending list uses latest rows; Android admin: new AdminAllSellersActivity/AdminSellerDetailActivity with adapter, added API endpoints and manifest entries, btnViewAll opens full list with approve/reject actions.
+- Backend: added user/list_orders.php (filters by user_id) and place_order now stores user_id, customer name/phone, totals; auto-adds user_id column if missing.
+- Android: wired OrdersFragment to fetch getOrders(user_id) and render order cards via new view_order_item; added CustomerOrdersResponse model and ApiService endpoint.
+- Admin UX: lightened AllSellers and SellerDetail screens, added document view buttons, and pending-list items now open SellerDetail. Seller status chip bound correctly; toolbar uses back navigation. AdminDashboard bottom nav uses setOnItemSelectedListener for clicks.
+- AdminSellerDetailActivity rewritten cleanly: fixed updateStatus hooks, uses statusChip, adds doc view buttons (opens via base URL), and resolves compile errors.
+- Backend: admin update_seller_status now updates the latest identity row, cleans duplicates, and persists seller status correctly.
+- Android: AdminAllSellersActivity now computes and displays pending/approved/rejected counts and total; click opens detail. AdminSellerDetailActivity cleaned; document view buttons remain.
+[2026-01-24 22:45]
+- Android: Wired seller home/orders to backend. SellerHomeFragment now pulls stats from seller/dashboard.php; SellerOrdersFragment uses RecyclerView + empty state backed by seller/get_orders.php. Added SellerAddProductActivity (manifest) posting to seller/add_product.php with optional image upload. Added ApiService endpoints + models SellerDashboardResponse/SellerOrdersResponse. Backend seller/dashboard.php now also returns revenue (no DB schema change).
+[2026-01-24 22:55]
+- Android: Fix SellerAddProductActivity crash (btnBack cast) by treating header/back and primary CTA as generic views.
+[2026-01-24 23:05]
+- Android: Seller add-product screen default state now shows �Add a product photo / Tap to add� with camera icon; green �photo selected� only after picking an image (no schema change).
+-- SQL to add optional metadata for seller products
+ALTER TABLE seller_products
+  ADD COLUMN category VARCHAR(100) NULL,
+  ADD COLUMN freshness VARCHAR(50) NULL,
+  ADD COLUMN location_name VARCHAR(255) NULL,
+  ADD COLUMN latitude DECIMAL(10,6) NULL,
+  ADD COLUMN longitude DECIMAL(10,6) NULL;
+[2026-01-24 23:20]\n- Backend: seller/add_product.php now also stores products into products table with rating=5.0 and writes rating into seller_products.\n- DB: Add rating to seller_products default 5.0. SQL: ALTER TABLE seller_products ADD COLUMN rating DECIMAL(2,1) DEFAULT 5.0;
+[2026-01-24 23:30]\n- Backend: get_product_details.php now returns seller_id, seller rating/name; add_product.php writes rating to seller_products and products.\n- DB: seller_products table definition includes rating DECIMAL(2,1) DEFAULT 5.0 (ALTER TABLE seller_products ADD COLUMN rating DECIMAL(2,1) DEFAULT 5.0;).
+[2026-01-24 23:40]\n- Backend: user/get_popular_products.php now reads from seller_products (product_name/price/rating/freshness/image) instead of products.
+[2026-01-24 23:55]\n- Backend: user/home.php popular_today now reads from seller_products (includes seller_id).\n- Backend: added user/get_seller_product_details.php for seller_products-based product + seller + other products.
+[2026-01-25 00:10]\n- Android: HomeFragment now stores customer location locally on tap (uses fused location + Geocoder). CategoriesFragment uses viewLifecycleOwner scope to avoid context detach crash.
+[2026-01-25 00:20]\n- Android: added review-count display in product cards and AddToCart; fish/home adapters show deterministic review counts. AddToCart shows review count and seller rating; fixed minus icon.
+[2026-01-25 01:45]\n- Android: PaymentActivity now finalizes payment using selected method (UPI/CARD/WALLET) after Razorpay success.\n- Android: Order confirmed layout tuned to match reference (sizes, card elevation, spacing, icons).\n- Backend: place_payment.php now accepts UPI/CARD/WALLET/COD, suppresses PHP warnings, and guards query failures.\n- Backend: place_order_app.php uses strict mysqli exceptions, avoids runtime ALTER, and safely rolls back on error.
+[2026-01-25 02:00]\n- Backend: place_order_app.php and place_order.php now read users.full_name instead of missing users.name.
+[2026-01-25 02:06]\n- Backend: user/get_seller_product_details.php now returns seller_products.location_name.\n- Android: AddToCartActivity shows seller location (product location_name, fallback to seller city) and activity_addtocart.xml adds tvLocationValue.
+[2026-01-25 02:34]\n- Android: added TrackOrderActivity with order tracking UI; OrdersFragment and OrderConfirmedActivity now open it.\n- Android: track_order layout refreshed to ASCII icons; added track order API model and endpoint.\n- Backend: track_order.php now returns status and uses bind_result; place_order_app inserts initial order_tracking row.

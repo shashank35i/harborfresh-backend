@@ -1,0 +1,41 @@
+DB changes
+
+Added sellers.verification_step + new seller_verification_logs table (step history).
+
+Updated harborfresh.sql to include CREATE DATABASE + USE.
+
+Migration: seller onboarding cleanup (dedupe seller tables + add UNIQUE keys).
+
+Migration: expanded users.role enum to include admin.
+
+seller_products: added optional fields (category, freshness, location_name, lat/long) + rating default 5.0.
+
+Order tracking: insert initial tracking row when order is created.
+
+Backend changes
+
+New: seller/update_verification_step.php (updates step + writes log).
+
+Centralized email SMTP config: mail_config.php; OTP sender switched to branded harborfresh template.
+
+New: user/reset_password.php (OTP check + set new password).
+
+Login rule: email verification enforced only for customers; sellers can login without it.
+
+Seller login: returns 200 with success=false instead of 404 for missing seller.
+
+Signup flow changed: create pending_users first → verify_otp moves to users (role preserved).
+
+Admin APIs added: admin/pending_verifications.php, plus list_sellers.php, seller_detail.php, update_seller_status.php.
+
+Identity endpoints now update latest row (upsert + delete duplicates); status aggregation uses latest record.
+
+Submission rule relaxed: police verification can stay pending; Aadhaar + live + face are required.
+
+Orders: added user/list_orders.php; store user_id in orders; read users.full_name instead of users.name.
+
+Payments: place_payment.php supports UPI/CARD/WALLET/COD and guards warnings; place_order_app.php made safer (exceptions + rollback).
+
+Products: add_product writes to seller_products + products; popular products now sourced from seller_products; added user/get_seller_product_details.php.
+
+Tracking: added track_order.php and ensured first tracking status is inserted on order create.
