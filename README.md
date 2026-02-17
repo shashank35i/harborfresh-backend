@@ -1,7 +1,7 @@
 # HarborFresh Backend
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_mockup_backend.png" width="100%" alt="HarborFresh Backend preview" />
+  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_phone_backend.png" width="100%" alt="HarborFresh Backend preview" />
 </div>
 
 <p align="center">
@@ -58,7 +58,7 @@ Success is measured by:
 ## Demo
 
 <div align="center">
-  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_mockup_backend.png" width="100%" alt="HarborFresh backend mockup" />
+  <img src="https://raw.githubusercontent.com/shashank35i/harborfresh-backend/master/demos/harborfresh_phone_backend.png" width="100%" alt="HarborFresh backend mockup" />
 </div>
 
 ---
@@ -318,5 +318,6 @@ Set via system environment:
 
 MIT License.
 See [LICENSE](LICENSE).
+
 
 
