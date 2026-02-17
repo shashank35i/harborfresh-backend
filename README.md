@@ -1,8 +1,17 @@
 # HarborFresh Backend
 
-Dock-to-door seafood marketplace backend for customer ordering, seller onboarding, and admin review workflows.
+<div align="center">
+  <img src="demos/harborfresh_mockup_backend.svg" width="100%" alt="HarborFresh Backend preview" />
+</div>
 
-![Platform](https://img.shields.io/badge/Platform-PHP-777BB4) ![Database](https://img.shields.io/badge/Database-MySQL-4479A1) ![Mail](https://img.shields.io/badge/Mail-PHPMailer-0F3D4C) ![Status](https://img.shields.io/badge/Status-Production--ready-0F3D4C) ![License](https://img.shields.io/badge/License-MIT-black)
+<p align="center">
+  <img src="https://img.shields.io/badge/PHP-777BB4?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/PHPMailer-0F3D4C?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Status-Production--ready-2F7D67?style=for-the-badge" />
+</p>
+
+<p align="center"><strong>HarborFresh</strong> — dock-to-door seafood marketplace backend for customer ordering, seller onboarding, and admin review workflows.</p>
 
 Built by Shashank Preetham Pendyala
 
@@ -48,7 +57,9 @@ Success is measured by:
 
 ## Demo
 
-![HarborFresh Backend](demos/harborfresh_backend.gif)
+<div align="center">
+  <img src="demos/harborfresh_mockup_backend.svg" width="100%" alt="HarborFresh backend mockup" />
+</div>
 
 ---
 
